@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#7650b8"><title>کنکور یار 💜</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f0fc;color:#302744;font-family:Tahoma,Arial,sans-serif;line-height:1.8}
+button,input,textarea{font:inherit;border-radius:12px;padding:10px;border:1px solid #eadff6}
+button{background:#7650b8;color:white;border:0;cursor:pointer}input,textarea{width:100%;margin:5px 0 10px;background:white}textarea{min-height:70px}
+header{background:linear-gradient(140deg,#563785,#9b78d0);color:white;text-align:center;padding:26px 15px;border-radius:0 0 25px 25px}
+header h1{margin:0;font-size:30px}.verse{font-size:19px;margin-top:12px}.verse small{display:block;font-size:12px}
+main{max-width:850px;margin:auto;padding:14px}.card{background:white;padding:17px;margin:13px 0;border-radius:18px;box-shadow:0 5px 18px #51317f0c}
+h2{font-size:19px;color:#50327f;margin:0 0 10px}.muted{font-size:12px;color:#81758f}
+.nav{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.nav a{text-align:center;text-decoration:none;color:#50327f;background:#f2eafb;padding:10px;border-radius:12px}
+.row{display:flex;gap:8px;align-items:center}.row input{flex:1;min-width:0}.item{display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #f0eaf5}
+.item span{flex:1;overflow-wrap:anywhere}.item input{width:19px;margin:0;accent-color:#7650b8}.done{text-decoration:line-through;color:#9b91a7}
+.del{background:#eee8f5;color:#5b4775;padding:5px 10px;font-size:12px}.clock{text-align:center;font-size:32px;color:#7650b8;font-weight:bold;direction:ltr}.center{text-align:center}
+@media(min-width:650px){.nav{grid-template-columns:repeat(4,1fr)}}
+</style></head>
+<body>
+<header><h1>کنکور یار 💜</h1><p>قدم‌های کوچک امروز، نتیجه‌های بزرگ فردا</p>
+<div class="verse">وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ<small>سوره نجم، آیه ۳۹</small></div></header>
+<main>
+<section class="card"><h2>👋 خوش اومدی!</h2><label>اسم یا نام کاربری</label><div class="row"><input id="name" placeholder="اسم تو"><button id="saveName">ذخیره</button></div><p id="hello" class="muted">اینجا فضای برنامه‌ریزی و پیشرفت توست.</p></section>
+<nav class="card nav"><a href="#exam">📝 آزمون و تحلیل</a><a href="#study">⏱️ سالن مطالعه</a><a href="#goals">🌟 اهداف و آرزوها</a><a href="#tasks">🌱 کارهای غیردرسی</a></nav>
+<section class="card" id="exam"><h2>📝 آزمون و تحلیل آزمون</h2>
+<input id="examTitle" placeholder="نام آزمون"><input id="examScore" placeholder="درصد یا نمره"><textarea id="examAnalysis" placeholder="تحلیل و نکته‌هایی که یاد گرفتی"></textarea>
+<button id="addExam">ثبت نتیجه آزمون</button><div id="examList"></div><hr><h3>⏳ شمارش معکوس کنکور</h3><input id="examDate" type="date"><div class="clock" id="countdown">—</div></section>
+<section class="card" id="study"><h2>⏱️ سالن مطالعه</h2><p class="muted">تایمر شخصی مطالعه؛ اتاق صوتی گروهی در نسخه بعدی قابل اتصال است.</p><div class="clock" id="timer">00:00:00</div><div class="center"><button id="start">شروع</button> <button id="pause">توقف</button> <button id="reset">از اول</button></div></section>
+<section class="card" id="goals"><h2>🌟 اهداف و آرزوها</h2><div class="row"><input id="goalInput" placeholder="یک هدف مهم بنویس"><button id="addGoal">افزودن</button></div><div id="goalList"></div></section>
+<section class="card" id="tasks"><h2>🌱 کارهای غیردرسی</h2><p class="muted">برای استراحت و کارهای روزمره هم جا باز کن.</p><div class="row"><input id="taskInput" placeholder="مثلاً ۱۰ تا شنا یا نیم ساعت استراحت"><button id="addTask">افزودن</button></div><div id="taskList"></div></section>
+<p class="muted center">اطلاعات این نسخه فقط در همین مرورگر و همین دستگاه ذخیره می‌شود.</p></main>
+<footer class="muted center">کنکور یار 💜 همراه مسیر تلاش تو</footer>
+<script>
+const $=id=>document.getElementById(id);
+function read(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
+let tasks=read("ky_tasks",[{text:"۱۰ تا شنا",done:false},{text:"نیم ساعت استراحت",done:false}]),goals=read("ky_goals",[]),exams=read("ky_exams",[]);
+function el(tag,text,cls){let x=document.createElement(tag);x.textContent=text;if(cls)x.className=cls;return x}
+function renderTasks(){let root=$("taskList");root.replaceChildren();tasks.forEach((t,i)=>{let r=el("div","","item"),c=document.createElement("input");c.type="checkbox";c.checked=t.done;c.onchange=()=>{t.done=c.checked;write("ky_tasks",tasks);renderTasks()};let s=el("span",t.text,t.done?"done":"");let b=el("button","حذف","del");b.onclick=()=>{tasks.splice(i,1);write("ky_tasks",tasks);renderTasks()};r.append(c,s,b);root.append(r)})}
+function renderSimple(rootId,arr,key){let root=$(rootId);root.replaceChildren();arr.forEach((v,i)=>{let r=el("div","","item"),s=el("span",key?v[key]:v),b=el("button","حذف","del");b.onclick=()=>{arr.splice(i,1);write(key?"ky_exams":"ky_goals",arr);key?renderExams():renderGoals()};r.append(s,b);root.append(r)})}
+function renderGoals(){renderSimple("goalList",goals)}
+function renderExams(){let root=$("examList");root.replaceChildren();exams.forEach((e,i)=>{let r=el("div","","item"),s=el("span",e.title+" — "+e.score+(e.analysis?" | "+e.analysis:"")),b=el("button","حذف","del");b.onclick=()=>{exams.splice(i,1);write("ky_exams",exams);renderExams()};r.append(s,b);root.append(r)})}
+$("saveName").onclick=()=>{let n=$("name").value.trim();if(n){localStorage.setItem("ky_name",n);$("hello").textContent="سلام "+n+"! خوش اومدی به کنکور یار 💜"}};
+let old=localStorage.getItem("ky_name");if(old){$("name").value=old;$("hello").textContent="سلام "+old+"! خوش اومدی به کنکور یار 💜"}
+$("addTask").onclick=()=>{let v=$("taskInput").value.trim();if(v){tasks.push({text:v,done:false});write("ky_tasks",tasks);$("taskInput").value="";renderTasks()}};
+$("addGoal").onclick=()=>{let v=$("goalInput").value.trim();if(v){goals.push(v);write("ky_goals",goals);$("goalInput").value="";renderGoals()}};
+$("addExam").onclick=()=>{let title=$("examTitle").value.trim(),score=$("examScore").value.trim(),analysis=$("examAnalysis").value.trim();if(!title||!score){alert("نام آزمون و نمره را وارد کن.");return}exams.unshift({title,score,analysis});write("ky_exams",exams);$("examTitle").value=$("examScore").value=$("examAnalysis").value="";renderExams()};
+$("examDate").value=localStorage.getItem("ky_exam_date")||"";
+function countdown(){let v=$("examDate").value;if(!v){$("countdown").textContent="—";return}let d=new Date(v+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);let days=Math.round((d-n)/86400000);$("countdown").textContent=days>0?days+" روز":days===0?"امروز!":"تاریخ گذشته"}
+$("examDate").onchange=()=>{localStorage.setItem("ky_exam_date",$("examDate").value);countdown()};
+let seconds=0,interval=null;function draw(){let h=String(Math.floor(seconds/3600)).padStart(2,"0"),m=String(Math.floor(seconds%3600/60)).padStart(2,"0"),s=String(seconds%60).padStart(2,"0");$("timer").textContent=h+":"+m+":"+s}
+$("start").onclick=()=>{if(interval===null)interval=setInterval(()=>{seconds++;draw()},1000)};
+$("pause").onclick=()=>{clearInterval(interval);interval=null};
+$("reset").onclick=()=>{clearInterval(interval);interval=null;seconds=0;draw()};
+renderTasks();renderGoals();renderExams();countdown();draw();
+</script></body></html>
